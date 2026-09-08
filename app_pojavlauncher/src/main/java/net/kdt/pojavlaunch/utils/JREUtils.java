@@ -386,7 +386,18 @@ public class JREUtils {
         userArgs.add("-XX:ActiveProcessorCount=" + java.lang.Runtime.getRuntime().availableProcessors());
         // Adds/changes methods for compatibility
         userArgs.add("-javaagent:"+new File(Tools.DIR_DATA,"MioLibPatcher/MioLibPatcher.jar").getAbsolutePath());
-        userArgs.add("-Dmiolibpatcher.alc10=true");
+        // Only needed for lwjglx
+        if (Tools.iLwjglVersion <= 299) userArgs.add("-Dmiolibpatcher.alc10=true");
+
+        if (Tools.sAsmVersion != null) {
+            // We override it with 5.0.4 and no forge version ever used 5.0.4, only 5.0.3
+            // This exists for AE1. If any other buggy mods come up, let's enable it for them too.
+            if (Integer.parseInt(Tools.sAsmVersion[0]) == 5 &&
+                    Integer.parseInt(Tools.sAsmVersion[1]) == 0 &&
+                    Integer.parseInt(Tools.sAsmVersion[2]) == 4) {
+                userArgs.add("-Dmiolibpatcher.asmBackport=true");
+            }
+        }
 
         userArgs.addAll(JVMArgs);
         activity.runOnUiThread(() -> Toast.makeText(activity, activity.getString(R.string.autoram_info_msg,LauncherPreferences.PREF_RAM_ALLOCATION), Toast.LENGTH_SHORT).show());
