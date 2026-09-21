@@ -1,5 +1,9 @@
 pluginManagement {
     repositories {
+        // Optional local mirror seeded by curl on machines where Gradle's own
+        // transport is unreliable (see the Sonar launcher docs). Ignored if absent.
+        def seeded = new File(rootDir, ".local-maven")
+        if (seeded.isDirectory()) maven { url = seeded.toURI() }
         gradlePluginPortal()
         google()
     }
@@ -8,9 +12,13 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
+        def seeded = new File(rootDir, ".local-maven")
+        if (seeded.isDirectory()) maven { url = seeded.toURI() }
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven { url = "https://jitpack.io" }
+        // Prebuilt native libraries shipped in the repository (GL translators, LWJGL natives...).
+        flatDir { dirs new File(rootDir, "app_pojavlauncher/libs") }
     }
 }
 
