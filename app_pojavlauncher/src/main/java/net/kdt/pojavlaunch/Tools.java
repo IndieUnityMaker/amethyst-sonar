@@ -540,6 +540,10 @@ public final class Tools {
         if (hasSodiumMod) javaArgList.add("-Dsodium.checks.issue2561=false");
         javaArgList.add(versionInfo.mainClass);
         javaArgList.addAll(Arrays.asList(launchArgs));
+        // Extra game arguments from the launcher profile, appended verbatim.
+        // A list rather than a string: values such as a world folder name
+        // (--quickPlaySingleplayer) may contain spaces and must stay one argument.
+        if (minecraftProfile.gameArgs != null) javaArgList.addAll(Arrays.asList(minecraftProfile.gameArgs));
         // ctx.appendlnToLog("full args: "+javaArgList.toString());
         String args = LauncherPreferences.PREF_CUSTOM_JAVA_ARGS;
         if(Tools.isValidString(minecraftProfile.javaArgs)) args = minecraftProfile.javaArgs;

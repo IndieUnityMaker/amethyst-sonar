@@ -17,6 +17,8 @@ public class MinecraftProfile {
 	public String gameDir;
 	public String javaDir;
 	public String javaArgs;
+	/** Extra game arguments appended after the version's own, one element per argument. */
+	public String[] gameArgs;
 	public String logConfig;
 	public boolean logConfigIsXML;
 	public String pojavRendererName;
@@ -51,6 +53,7 @@ public class MinecraftProfile {
 		gameDir = profile.gameDir;
 		javaDir = profile.javaDir;
 		javaArgs = profile.javaArgs;
+		gameArgs = profile.gameArgs;
 		logConfig = profile.logConfig;
 		logConfigIsXML = profile.logConfigIsXML;
 		pojavRendererName = profile.pojavRendererName;
