@@ -155,11 +155,11 @@ public final class Tools {
 
 
     private static File getPojavStorageRoot(Context ctx) {
-        if(SDK_INT >= 29) {
-            return ctx.getExternalFilesDir(null);
-        }else{
-            return new File(Environment.getExternalStorageDirectory(),"games/Amethyst");
-        }
+        // Sonar: the app-specific directory on every Android version. Below API 29
+        // upstream used /sdcard/games/Amethyst, which needs WRITE_EXTERNAL_STORAGE:
+        // the embedding launcher does not request it, so on Android 8-9 every write
+        // failed (ENOENT on version-manifest.json.part) and no version could install.
+        return ctx.getExternalFilesDir(null);
     }
 
     /**
